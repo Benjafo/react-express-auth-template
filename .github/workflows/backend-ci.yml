@@ -1,0 +1,61 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'server/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'server/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+      
+      - name: Install dependencies
+        run: npm ci --omit-dev
+      
+      - name: Install server dependencies
+        working-directory: ./server
+        run: npm ci --only=production && npm ci
+      
+      - name: Lint
+        working-directory: ./server
+        run: npm run lint
+      
+      - name: Check formatting
+        working-directory: ./server
+        run: npm run format:check
+      
+      - name: Start test services
+        run: |
+          docker compose up -d postgres
+          sleep 10
+      
+      - name: Run migrations
+        working-directory: ./server
+        run: npm run migrate
+        env:
+          DATABASE_URL: postgresql://iconstore:password@localhost:5432/iconstore
+      
+      - name: Run tests
+        working-directory: ./server
+        run: npm test
+        env:
+          DATABASE_URL: postgresql://iconstore:password@localhost:5432/iconstore
+      
+      - name: Stop test services
+        if: always()
+        run: docker compose down
