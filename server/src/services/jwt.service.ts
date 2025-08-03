@@ -21,7 +21,7 @@ export class JWTService {
     };
 
     const options: SignOptions = {
-      expiresIn: this.ACCESS_EXPIRY,
+      expiresIn: this.ACCESS_EXPIRY as string,
     };
     return jwt.sign(payload, this.ACCESS_SECRET, options);
   }
@@ -52,7 +52,7 @@ export class JWTService {
     };
 
     const options: SignOptions = {
-      expiresIn: this.REFRESH_EXPIRY,
+      expiresIn: this.REFRESH_EXPIRY as string,
     };
     return jwt.sign(payload, this.REFRESH_SECRET, options);
   }
