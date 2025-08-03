@@ -25,13 +25,13 @@ async function startServer(): Promise<void> {
 }
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (err: any) => {
+process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED PROMISE REJECTION:', err);
   process.exit(1);
 });
 
 // Handle uncaught exceptions
-process.on('uncaughtException', (err: any) => {
+process.on('uncaughtException', (err: Error) => {
   console.error('UNCAUGHT EXCEPTION:', err);
   process.exit(1);
 });
