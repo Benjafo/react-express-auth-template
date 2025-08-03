@@ -168,7 +168,7 @@ export class User extends Model {
    * Get safe user data (without sensitive fields)
    */
   toSafeObject(): Partial<User> {
-    const { password, passwordResetToken, emailVerificationToken, ...safeUser } = this.toJSON();
+    const { password: _password, passwordResetToken: _passwordResetToken, emailVerificationToken: _emailVerificationToken, ...safeUser } = this.toJSON();
     return safeUser;
   }
 }
