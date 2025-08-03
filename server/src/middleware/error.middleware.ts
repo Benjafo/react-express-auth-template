@@ -6,7 +6,7 @@ import { ApiResponse } from '../types';
  * Global error handler middleware
  */
 export function errorHandler(
-  err: any,
+  err: Error & { status?: number; code?: string; details?: unknown[]; errors?: Array<{ path?: string; message: string }> },
   _req: Request,
   res: Response<ApiResponse>,
   _next: NextFunction
@@ -44,7 +44,7 @@ export function errorHandler(
       error: {
         code: 'VAL002',
         message: 'Duplicate entry',
-        details: err.errors?.map((e: any) => ({
+        details: err.errors?.map((e) => ({
           field: e.path,
           message: e.message,
         })),
