@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Secure authentication server with JWT and PostgreSQL",
   "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
@@ -12,7 +13,12 @@
     "test": "jest",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["authentication", "jwt", "express", "typescript"],
+  "keywords": [
+    "authentication",
+    "jwt",
+    "express",
+    "typescript"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -44,6 +50,7 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.18.0"
   }
 }
