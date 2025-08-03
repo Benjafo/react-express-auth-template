@@ -96,7 +96,7 @@ export function authorize(...roles: string[]) {
  */
 export async function optionalAuth(
   req: AuthRequest,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> {
   try {
