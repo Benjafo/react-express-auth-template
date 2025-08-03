@@ -20,8 +20,8 @@ export class JWTService {
       role: user.role,
     };
 
-    const options: SignOptions = {
-      expiresIn: this.ACCESS_EXPIRY as string,
+    const options = {
+      expiresIn: this.ACCESS_EXPIRY,
     };
     return jwt.sign(payload, this.ACCESS_SECRET, options);
   }
@@ -51,8 +51,8 @@ export class JWTService {
       tokenId: refreshToken.id,
     };
 
-    const options: SignOptions = {
-      expiresIn: this.REFRESH_EXPIRY as string,
+    const options = {
+      expiresIn: this.REFRESH_EXPIRY,
     };
     return jwt.sign(payload, this.REFRESH_SECRET, options);
   }
