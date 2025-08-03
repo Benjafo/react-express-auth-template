@@ -7,9 +7,9 @@ import { ApiResponse } from '../types';
  */
 export function errorHandler(
   err: any,
-  req: Request,
+  _req: Request,
   res: Response<ApiResponse>,
-  next: NextFunction
+  _next: NextFunction
 ): void {
   console.error('Error:', err);
 
@@ -78,7 +78,7 @@ export function errorHandler(
 /**
  * Not found handler
  */
-export function notFoundHandler(req: Request, res: Response): void {
+export function notFoundHandler(_req: Request, res: Response): void {
   res.status(404).json({
     success: false,
     error: {
