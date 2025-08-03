@@ -80,8 +80,8 @@ export class AuditLog extends Model {
     action: string;
     entityType?: string;
     entityId?: number;
-    oldValues?: any;
-    newValues?: any;
+    oldValues?: Record<string, unknown>;
+    newValues?: Record<string, unknown>;
     ipAddress?: string;
     userAgent?: string;
   }): Promise<AuditLog> {
