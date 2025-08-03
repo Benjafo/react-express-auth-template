@@ -20,7 +20,7 @@ export class JWTService {
       role: user.role,
     };
 
-    return jwt.sign(payload, this.ACCESS_SECRET, {
+    return jwt.sign(payload as object, this.ACCESS_SECRET, {
       expiresIn: this.ACCESS_EXPIRY,
     });
   }
@@ -50,7 +50,7 @@ export class JWTService {
       tokenId: refreshToken.id,
     };
 
-    return jwt.sign(payload, this.REFRESH_SECRET, {
+    return jwt.sign(payload as object, this.REFRESH_SECRET, {
       expiresIn: this.REFRESH_EXPIRY,
     });
   }
