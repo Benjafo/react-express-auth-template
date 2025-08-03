@@ -131,24 +131,4 @@ export class JWTService {
     );
   }
 
-  /**
-   * Parse expiry string to milliseconds
-   */
-  private static parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([dhms])$/);
-    if (!match) {
-      throw new Error('Invalid expiry format');
-    }
-
-    const [, value, unit] = match;
-    const num = parseInt(value);
-
-    switch (unit) {
-      case 's': return num * 1000;
-      case 'm': return num * 60 * 1000;
-      case 'h': return num * 60 * 60 * 1000;
-      case 'd': return num * 24 * 60 * 60 * 1000;
-      default: throw new Error('Invalid expiry unit');
-    }
-  }
 }
