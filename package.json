@@ -10,7 +10,6 @@
         "format:check": "npm run format:check:client && npm run format:check:server",
         "format:check:client": "cd client && npm run format:check",
         "format:check:server": "cd server && prettier --check \"src/**/*.ts\"",
-        "dev": "docker-compose -f docker-compose.dev.yml up",
         "dev:client": "cd client && npm run dev",
         "dev:server": "cd server && npm run dev",
         "build": "npm run build:client && npm run build:server",
