@@ -40,7 +40,7 @@ export class RefreshToken extends Model {
   @Column({
     type: DataType.JSONB,
   })
-  deviceInfo?: any;
+  deviceInfo?: Record<string, unknown>;
 
   @Default(true)
   @Column({
