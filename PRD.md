@@ -444,6 +444,10 @@ REACT_APP_API_URL=https://api.example.com
 
 ## 14. Timeline and Milestones
 
+### Phase 0: Setup
+- Docker development configuration
+- Prettier development configuration
+
 ### Phase 1: Core Backend (Week 1-2)
 - Database setup and models
 - Basic authentication endpoints
