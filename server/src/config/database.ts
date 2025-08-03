@@ -1,6 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
 import dotenv from 'dotenv';
-import path from 'path';
 import { User } from '../models/User';
 import { RefreshToken } from '../models/RefreshToken';
 import { LoginAttempt } from '../models/LoginAttempt';
