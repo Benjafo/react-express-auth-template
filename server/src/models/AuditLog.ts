@@ -46,7 +46,7 @@ export class AuditLog extends Model {
   @Column({
     type: DataType.JSONB,
   })
-  oldValues?: any;
+  oldValues?: Record<string, unknown>;
 
   @Column({
     type: DataType.JSONB,
