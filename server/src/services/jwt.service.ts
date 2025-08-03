@@ -98,8 +98,8 @@ export class JWTService {
       await refreshToken.updateLastUsed();
 
       return refreshToken;
-    } catch (error: any) {
-      throw new Error('Invalid refresh token: ' + error.message);
+    } catch (error) {
+      throw new Error('Invalid refresh token: ' + (error instanceof Error ? error.message : 'Unknown error'));
     }
   }
 
