@@ -24,7 +24,7 @@ export class JWTService {
   /**
    * Generate refresh token
    */
-  static async generateRefreshToken(user: User, deviceInfo?: any): Promise<string> {
+  static async generateRefreshToken(user: User, deviceInfo?: Record<string, unknown>): Promise<string> {
     // Generate a unique token
     const tokenString = crypto.randomBytes(32).toString('hex');
     
