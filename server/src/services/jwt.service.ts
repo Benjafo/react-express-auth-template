@@ -48,10 +48,7 @@ export class JWTService {
       tokenId: refreshToken.id,
     };
 
-    const options = {
-      expiresIn: this.REFRESH_EXPIRY,
-    };
-    return jwt.sign(payload, this.REFRESH_SECRET, options);
+    return jwt.sign(payload, this.REFRESH_SECRET, { expiresIn: '7d' });
   }
 
   /**
