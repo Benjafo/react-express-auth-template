@@ -51,7 +51,7 @@ export class JWTService {
   /**
    * Generate both access and refresh tokens
    */
-  static async generateTokens(user: User, deviceInfo?: any): Promise<AuthTokens> {
+  static async generateTokens(user: User, deviceInfo?: Record<string, unknown>): Promise<AuthTokens> {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = await this.generateRefreshToken(user, deviceInfo);
 
