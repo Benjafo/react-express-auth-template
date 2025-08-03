@@ -54,7 +54,7 @@ export async function authenticate(
       error: {
         code: 'AUTH003',
         message: 'Invalid or expired token',
-        details: [error.message],
+        details: [error instanceof Error ? error.message : 'Unknown error'],
       },
     });
   }
