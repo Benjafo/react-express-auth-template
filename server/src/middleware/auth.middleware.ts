@@ -48,7 +48,7 @@ export async function authenticate(
     req.token = token;
 
     next();
-  } catch (error: any) {
+  } catch (error) {
     res.status(401).json({
       success: false,
       error: {
