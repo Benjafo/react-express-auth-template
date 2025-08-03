@@ -7,8 +7,6 @@ import { User } from '../models/User';
 export class JWTService {
   private static readonly ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'default-access-secret';
   private static readonly REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'default-refresh-secret';
-  private static readonly ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '15m';
-  private static readonly REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '7d';
 
   /**
    * Generate access token
