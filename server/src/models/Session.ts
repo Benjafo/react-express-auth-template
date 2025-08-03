@@ -39,7 +39,7 @@ export class Session extends Model {
   @Column({
     type: DataType.JSONB,
   })
-  data?: any;
+  data?: Record<string, unknown>;
 
   @AllowNull(false)
   @Column({
