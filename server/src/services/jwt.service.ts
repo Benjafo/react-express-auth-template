@@ -28,9 +28,8 @@ export class JWTService {
     // Generate a unique token
     const tokenString = crypto.randomBytes(32).toString('hex');
     
-    // Calculate expiry date
-    const expiryMs = this.parseExpiry(this.REFRESH_EXPIRY);
-    const expiresAt = new Date(Date.now() + expiryMs);
+    // Calculate expiry date (7 days)
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     // Create refresh token in database
     const refreshToken = await RefreshToken.create({
