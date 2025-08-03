@@ -12,7 +12,6 @@ import {
 } from 'sequelize-typescript';
 import bcrypt from 'bcrypt';
 import { RefreshToken } from './RefreshToken';
-import { LoginAttempt } from './LoginAttempt';
 import { Session } from './Session';
 import { AuditLog } from './AuditLog';
 
