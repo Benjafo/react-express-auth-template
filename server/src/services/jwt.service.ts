@@ -64,8 +64,8 @@ export class JWTService {
   static verifyAccessToken(token: string): TokenPayload {
     try {
       return jwt.verify(token, this.ACCESS_SECRET) as TokenPayload;
-    } catch (error: any) {
-      throw new Error('Invalid or expired access token: ' + error.message);
+    } catch (error) {
+      throw new Error('Invalid or expired access token: ' + (error instanceof Error ? error.message : 'Unknown error'));
     }
   }
 
