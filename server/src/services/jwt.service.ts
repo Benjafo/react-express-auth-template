@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { TokenPayload, RefreshTokenPayload, AuthTokens } from '../types';
 import { RefreshToken } from '../models/RefreshToken';
@@ -20,10 +20,7 @@ export class JWTService {
       role: user.role,
     };
 
-    const options = {
-      expiresIn: this.ACCESS_EXPIRY,
-    };
-    return jwt.sign(payload, this.ACCESS_SECRET, options);
+    return jwt.sign(payload, this.ACCESS_SECRET, { expiresIn: '15m' });
   }
 
   /**
