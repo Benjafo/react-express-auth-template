@@ -1,10 +1,10 @@
-import express, { Application } from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes';
+import express, { Application } from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
+import authRoutes from './routes/auth.routes';
 
 // Load environment variables
 dotenv.config();
@@ -16,10 +16,12 @@ const app: Application = express();
 app.use(helmet());
 
 // CORS configuration
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    credentials: true,
+  })
+);
 
 // Body parsing middleware
 app.use(express.json());
