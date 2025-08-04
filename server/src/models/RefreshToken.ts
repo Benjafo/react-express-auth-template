@@ -1,93 +1,93 @@
 import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-  Default,
-  AllowNull,
-  Unique,
+    Table,
+    Column,
+    Model,
+    DataType,
+    ForeignKey,
+    BelongsTo,
+    Default,
+    AllowNull,
+    Unique,
 } from 'sequelize-typescript';
 import { User } from './User';
 
 @Table({
-  tableName: 'refresh_tokens',
-  timestamps: false,
+    tableName: 'refresh_tokens',
+    timestamps: false,
 })
 export class RefreshToken extends Model {
-  @Column({
-    type: DataType.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  })
-  id!: number;
+    @Column({
+        type: DataType.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    })
+    id!: number;
 
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column({
-    type: DataType.INTEGER,
-  })
-  userId!: number;
+    @ForeignKey(() => User)
+    @AllowNull(false)
+    @Column({
+        type: DataType.INTEGER,
+    })
+    userId!: number;
 
-  @Unique
-  @AllowNull(false)
-  @Column({
-    type: DataType.STRING(255),
-  })
-  token!: string;
+    @Unique
+    @AllowNull(false)
+    @Column({
+        type: DataType.STRING(255),
+    })
+    token!: string;
 
-  @Column({
-    type: DataType.JSONB,
-  })
-  deviceInfo?: Record<string, unknown>;
+    @Column({
+        type: DataType.JSONB,
+    })
+    deviceInfo?: Record<string, unknown>;
 
-  @Default(true)
-  @Column({
-    type: DataType.BOOLEAN,
-  })
-  isValid!: boolean;
+    @Default(true)
+    @Column({
+        type: DataType.BOOLEAN,
+    })
+    isValid!: boolean;
 
-  @Default(DataType.NOW)
-  @Column({
-    type: DataType.DATE,
-  })
-  createdAt!: Date;
+    @Default(DataType.NOW)
+    @Column({
+        type: DataType.DATE,
+    })
+    createdAt!: Date;
 
-  @AllowNull(false)
-  @Column({
-    type: DataType.DATE,
-  })
-  expiresAt!: Date;
+    @AllowNull(false)
+    @Column({
+        type: DataType.DATE,
+    })
+    expiresAt!: Date;
 
-  @Column({
-    type: DataType.DATE,
-  })
-  lastUsedAt?: Date;
+    @Column({
+        type: DataType.DATE,
+    })
+    lastUsedAt?: Date;
 
-  @BelongsTo(() => User)
-  user!: User;
+    @BelongsTo(() => User)
+    user!: User;
 
-  /**
-   * Check if token is expired
-   */
-  isExpired(): boolean {
-    return this.expiresAt < new Date();
-  }
+    /**
+     * Check if token is expired
+     */
+    isExpired(): boolean {
+        return this.expiresAt < new Date();
+    }
 
-  /**
-   * Invalidate token
-   */
-  async invalidate(): Promise<void> {
-    this.isValid = false;
-    await this.save();
-  }
+    /**
+     * Invalidate token
+     */
+    async invalidate(): Promise<void> {
+        this.isValid = false;
+        await this.save();
+    }
 
-  /**
-   * Update last used timestamp
-   */
-  async updateLastUsed(): Promise<void> {
-    this.lastUsedAt = new Date();
-    await this.save();
-  }
+    /**
+     * Update last used timestamp
+     */
+    async updateLastUsed(): Promise<void> {
+        this.lastUsedAt = new Date();
+        await this.save();
+    }
 }
