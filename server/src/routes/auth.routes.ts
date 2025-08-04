@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 import { Router, Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { AuthService } from '../services/auth.service';
 import { authenticate } from '../middleware/auth.middleware';
 import { validate } from '../middleware/validation.middleware';
 import { AuthRequest, ApiResponse } from '../types';
+=======
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { authenticate } from '../middleware/auth.middleware';
+import { validate } from '../middleware/validation.middleware';
+import { AuthController } from '../controllers/auth.controller';
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 
 const router = Router();
 
@@ -67,6 +75,7 @@ const authValidation = {
 router.post(
   '/register',
   validate(authValidation.register),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       const user = await AuthService.register(req.body);
@@ -83,6 +92,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.register
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -92,6 +104,7 @@ router.post(
 router.post(
   '/login',
   validate(authValidation.login),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       const ipAddress = req.ip;
@@ -116,6 +129,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.login
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -125,6 +141,7 @@ router.post(
 router.post(
   '/logout',
   authenticate,
+<<<<<<< HEAD
   async (req: AuthRequest, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       await AuthService.logout(req.user!.id, req.body.refreshToken);
@@ -137,6 +154,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.logout
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -146,6 +166,7 @@ router.post(
 router.post(
   '/refresh',
   validate(authValidation.refresh),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       const tokens = await AuthService.refreshToken(req.body.refreshToken);
@@ -162,6 +183,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.refreshToken
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -171,6 +195,7 @@ router.post(
 router.get(
   '/verify',
   authenticate,
+<<<<<<< HEAD
   async (req: AuthRequest, res: Response<ApiResponse>) => {
     res.json({
       success: true,
@@ -180,6 +205,9 @@ router.get(
       },
     });
   }
+=======
+  AuthController.verify
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -189,6 +217,7 @@ router.get(
 router.post(
   '/verify-email',
   validate(authValidation.verifyEmail),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       const user = await AuthService.verifyEmail(req.body.token);
@@ -204,6 +233,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.verifyEmail
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -213,6 +245,7 @@ router.post(
 router.post(
   '/forgot-password',
   validate(authValidation.forgotPassword),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       await AuthService.forgotPassword(req.body.email);
@@ -225,6 +258,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.forgotPassword
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 /**
@@ -234,6 +270,7 @@ router.post(
 router.post(
   '/reset-password',
   validate(authValidation.resetPassword),
+<<<<<<< HEAD
   async (req: Request, res: Response<ApiResponse>, next: NextFunction) => {
     try {
       await AuthService.resetPassword(
@@ -250,6 +287,9 @@ router.post(
       next(error);
     }
   }
+=======
+  AuthController.resetPassword
+>>>>>>> 70d04d9 (task: modify server/src/routes/auth.routes.ts - 12:05,modify server/src/routes/auth.routes.ts - 12:03,modify PRD.md,server/src/controllers/ - 12:03, - 2025-08-04)
 );
 
 export default router;
