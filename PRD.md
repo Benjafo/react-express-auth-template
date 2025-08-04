@@ -478,9 +478,7 @@ REACT_APP_API_URL=https://api.example.com
 - Monitoring setup
 - Final security audit
 
-## 15. Appendices
-
-### A. Security Checklist
+## 15. Security Checklist
 - [ ] HTTPS enforcement
 - [ ] Password complexity requirements
 - [ ] Bcrypt with appropriate rounds
@@ -496,26 +494,3 @@ REACT_APP_API_URL=https://api.example.com
 - [ ] Error message sanitization
 - [ ] Audit logging
 - [ ] Account lockout mechanism
-
-### B. API Error Codes
-```
-AUTH001: Invalid credentials
-AUTH002: Account locked
-AUTH003: Email not verified
-AUTH004: Token expired
-AUTH005: Invalid token
-AUTH006: Insufficient permissions
-VAL001: Validation failed
-VAL002: Email already exists
-VAL003: Password requirements not met
-RATE001: Too many requests
-SYS001: Internal server error
-```
-
-### C. Development Tools
-- Postman for API testing
-- pgAdmin or DBeaver for PostgreSQL management
-- JWT.io for token debugging
-- Redux DevTools for state management
-- React Developer Tools
-- Network monitoring tools
