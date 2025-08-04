@@ -1,4 +1,7 @@
 
+scripts/
+
+
 # Assets
 client/src/assets/
 
@@ -138,3 +141,21 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Server specific
+server/dist/
+server/.tsbuildinfo
+
+# Database
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store

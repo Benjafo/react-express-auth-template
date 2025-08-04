@@ -1,0 +1,102 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: auth-template-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: auth_template
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d auth_template"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - auth-network
+
+  # Server (Express API)
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: auth-template-server-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: auth_template
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev_password
+      JWT_ACCESS_SECRET: dev-access-secret-change-in-production
+      JWT_REFRESH_SECRET: dev-refresh-secret-change-in-production
+      JWT_ACCESS_EXPIRY: 15m
+      JWT_REFRESH_EXPIRY: 7d
+      BCRYPT_ROUNDS: 12
+      RATE_LIMIT_WINDOW: 15
+      RATE_LIMIT_MAX: 100
+      CORS_ORIGIN: http://localhost:5173
+      # Hot reloading
+      CHOKIDAR_USEPOLLING: true
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server/src:/app/src:ro
+      - ./server/package.json:/app/package.json:ro
+      - ./server/package-lock.json:/app/package-lock.json:ro
+      - ./server/tsconfig.json:/app/tsconfig.json:ro
+      - ./server/nodemon.json:/app/nodemon.json:ro
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - auth-network
+
+  # Client (React App)
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: auth-template-client-dev
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:3001
+      # Hot reloading
+      CHOKIDAR_USEPOLLING: true
+      FAST_REFRESH: true
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client/src:/app/src:ro
+      - ./client/public:/app/public:ro
+      - ./client/index.html:/app/index.html:ro
+      - ./client/package.json:/app/package.json:ro
+      - ./client/package-lock.json:/app/package-lock.json:ro
+      - ./client/tsconfig.json:/app/tsconfig.json:ro
+      - ./client/tsconfig.app.json:/app/tsconfig.app.json:ro
+      - ./client/tsconfig.node.json:/app/tsconfig.node.json:ro
+      - ./client/vite.config.ts:/app/vite.config.ts:ro
+      - ./client/eslint.config.js:/app/eslint.config.js:ro
+      - /app/node_modules
+    depends_on:
+      - server
+    networks:
+      - auth-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  auth-network:
+    driver: bridge
