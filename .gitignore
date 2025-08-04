@@ -1,6 +1,6 @@
 
 scripts/
-
+.claude/settings.local.json
 
 # Assets
 client/src/assets/
