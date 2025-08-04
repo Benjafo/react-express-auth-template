@@ -45,13 +45,13 @@ jobs:
         working-directory: ./server
         run: npm run migrate
         env:
-          DATABASE_URL: postgresql://iconstore:password@localhost:5432/iconstore
+          DATABASE_URL: postgresql://postgres:dev_password@localhost:5432/auth_template
       
       - name: Run tests
         working-directory: ./server
         run: npm test
         env:
-          DATABASE_URL: postgresql://iconstore:password@localhost:5432/iconstore
+          DATABASE_URL: postgresql://postgres:dev_password@localhost:5432/auth_template
       
       - name: Stop test services
         if: always()
