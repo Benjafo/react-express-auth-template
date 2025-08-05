@@ -17,7 +17,7 @@ export class CSRFProtection {
     /**
      * Generate a new CSRF token
      */
-    private static generateToken(): string {
+    private static generateNewToken(): string {
         return crypto.randomBytes(this.TOKEN_LENGTH).toString('hex');
     }
 
