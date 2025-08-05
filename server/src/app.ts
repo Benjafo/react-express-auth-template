@@ -1,9 +1,9 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
-import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
+import { apiLimiter } from './middleware/rateLimiter.middleware';
 import authRoutes from './routes/auth.routes';
 
 // Load environment variables
