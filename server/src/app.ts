@@ -14,8 +14,8 @@ dotenv.config();
 // Create Express app
 const app: Application = express();
 
-// Security middleware
-app.use(helmet());
+// Configure comprehensive security headers
+configureSecurityHeaders(app);
 
 // CORS configuration
 app.use(
