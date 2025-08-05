@@ -47,22 +47,12 @@ router.post('/verify-email', validate(authValidation.verifyEmail), AuthControlle
  * POST /api/auth/forgot-password
  * Request password reset
  */
-router.post(
-    '/forgot-password',
-    passwordResetLimiter,
-    validate(authValidation.forgotPassword),
-    AuthController.forgotPassword
-);
+router.post('/forgot-password', passwordResetLimiter, validate(authValidation.forgotPassword), AuthController.forgotPassword);
 
 /**
  * POST /api/auth/reset-password
  * Reset password
  */
-router.post(
-    '/reset-password',
-    passwordResetLimiter,
-    validate(authValidation.resetPassword),
-    AuthController.resetPassword
-);
+router.post('/reset-password', passwordResetLimiter, validate(authValidation.resetPassword), AuthController.resetPassword);
 
 export default router;
