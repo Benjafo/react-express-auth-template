@@ -2,10 +2,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
-import helmet from 'helmet';
 import { csrf } from './middleware/csrf.middleware';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 import { apiLimiter } from './middleware/rateLimiter.middleware';
+import { configureSecurityHeaders, cspReportHandler } from './middleware/security.middleware';
 import authRoutes from './routes/auth.routes';
 
 // Load environment variables
