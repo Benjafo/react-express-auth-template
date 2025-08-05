@@ -1,5 +1,5 @@
 import helmet from 'helmet';
-import { Application } from 'express';
+import { Application, Request, Response } from 'express';
 
 /**
  * Configure comprehensive security headers using Helmet.js
