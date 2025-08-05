@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { authenticate } from '../middleware/auth.middleware';
+import { authLimiter, passwordResetLimiter, registrationLimiter } from '../middleware/rateLimiter.middleware';
 import { validate } from '../middleware/validation.middleware';
 import { authValidation } from '../validations/auth.validation';
 
@@ -10,13 +11,13 @@ const router = Router();
  * POST /api/auth/register
  * Register a new user
  */
-router.post('/register', validate(authValidation.register), AuthController.register);
+router.post('/register', registrationLimiter, validate(authValidation.register), AuthController.register);
 
 /**
  * POST /api/auth/login
  * Login user
  */
-router.post('/login', validate(authValidation.login), AuthController.login);
+router.post('/login', authLimiter, validate(authValidation.login), AuthController.login);
 
 /**
  * POST /api/auth/logout
@@ -46,12 +47,12 @@ router.post('/verify-email', validate(authValidation.verifyEmail), AuthControlle
  * POST /api/auth/forgot-password
  * Request password reset
  */
-router.post('/forgot-password', validate(authValidation.forgotPassword), AuthController.forgotPassword);
+router.post('/forgot-password', passwordResetLimiter, validate(authValidation.forgotPassword), AuthController.forgotPassword);
 
 /**
  * POST /api/auth/reset-password
  * Reset password
  */
-router.post('/reset-password', validate(authValidation.resetPassword), AuthController.resetPassword);
+router.post('/reset-password', passwordResetLimiter, validate(authValidation.resetPassword), AuthController.resetPassword);
 
 export default router;

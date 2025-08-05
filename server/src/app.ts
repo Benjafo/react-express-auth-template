@@ -1,9 +1,11 @@
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
-import rateLimit from 'express-rate-limit';
-import helmet from 'helmet';
+import { csrf } from './middleware/csrf.middleware';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
+import { apiLimiter } from './middleware/rateLimiter.middleware';
+import { configureSecurityHeaders, cspReportHandler } from './middleware/security.middleware';
 import authRoutes from './routes/auth.routes';
 
 // Load environment variables
@@ -12,8 +14,8 @@ dotenv.config();
 // Create Express app
 const app: Application = express();
 
-// Security middleware
-app.use(helmet());
+// Configure comprehensive security headers
+configureSecurityHeaders(app);
 
 // CORS configuration
 app.use(
@@ -23,30 +25,18 @@ app.use(
     })
 );
 
-// Body parsing middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Cookie parser middleware
+app.use(cookieParser());
 
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW || '15') * 60 * 1000,
-    max: parseInt(process.env.RATE_LIMIT_MAX || '100'),
-    message: 'Too many requests from this IP, please try again later.',
-    standardHeaders: true,
-    legacyHeaders: false,
-});
+// Body parsing middleware with size limits
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
-// Apply rate limiting to all routes
-app.use('/api/', limiter);
+// Apply rate limiting to all API routes
+app.use('/api/', apiLimiter);
 
-// Stricter rate limiting for auth routes
-const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 10, // 10 requests per window
-    skipSuccessfulRequests: true,
-});
-
-app.use('/api/auth/', authLimiter);
+// CSRF protection - generate token for all requests
+app.use(csrf.generate);
 
 // Health check endpoint
 app.get('/health', (_req, res) => {
@@ -58,6 +48,12 @@ app.get('/health', (_req, res) => {
         },
     });
 });
+
+// CSP violation report endpoint
+app.post('/api/csp-report', express.json({ type: 'application/csp-report' }), cspReportHandler());
+
+// Apply CSRF verification to API routes (excluding auth endpoints that don't need it)
+app.use('/api/', csrf.exclude(['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password']));
 
 // API routes
 app.use('/api/auth', authRoutes);

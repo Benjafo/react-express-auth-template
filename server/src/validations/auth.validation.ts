@@ -8,10 +8,16 @@ export const authValidation = {
      * Validation for user registration
      */
     register: [
-        body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
+        body('email')
+            .trim()
+            .isEmail()
+            .withMessage('Invalid email address')
+            .normalizeEmail()
+            .isLength({ max: 255 })
+            .withMessage('Email must be less than 255 characters'),
         body('password')
-            .isLength({ min: 8 })
-            .withMessage('Password must be at least 8 characters long')
+            .isLength({ min: 8, max: 128 })
+            .withMessage('Password must be between 8 and 128 characters')
             .matches(/[A-Z]/)
             .withMessage('Password must contain at least one uppercase letter')
             .matches(/[a-z]/)
@@ -29,16 +35,20 @@ export const authValidation = {
      * Validation for user login
      */
     login: [
-        body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
-        body('password').notEmpty().withMessage('Password is required'),
+        body('email')
+            .trim()
+            .isEmail()
+            .withMessage('Invalid email address')
+            .normalizeEmail()
+            .isLength({ max: 255 })
+            .withMessage('Email must be less than 255 characters'),
+        body('password').notEmpty().withMessage('Password is required').isLength({ max: 128 }).withMessage('Password must be less than 128 characters'),
     ] as ValidationChain[],
 
     /**
      * Validation for forgot password
      */
-    forgotPassword: [
-        body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
-    ] as ValidationChain[],
+    forgotPassword: [body('email').isEmail().withMessage('Invalid email address').normalizeEmail()] as ValidationChain[],
 
     /**
      * Validation for reset password

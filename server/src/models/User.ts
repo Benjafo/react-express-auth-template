@@ -1,15 +1,4 @@
-import {
-    Table,
-    Column,
-    Model,
-    DataType,
-    Default,
-    AllowNull,
-    Unique,
-    HasMany,
-    BeforeCreate,
-    BeforeUpdate,
-} from 'sequelize-typescript';
+import { Table, Column, Model, DataType, Default, AllowNull, Unique, HasMany, BeforeCreate, BeforeUpdate } from 'sequelize-typescript';
 import bcrypt from 'bcrypt';
 import { RefreshToken } from './RefreshToken';
 import { Session } from './Session';
@@ -168,12 +157,7 @@ export class User extends Model {
      * Get safe user data (without sensitive fields)
      */
     toSafeObject(): Partial<User> {
-        const {
-            password: _password,
-            passwordResetToken: _passwordResetToken,
-            emailVerificationToken: _emailVerificationToken,
-            ...safeUser
-        } = this.toJSON();
+        const { password: _password, passwordResetToken: _passwordResetToken, emailVerificationToken: _emailVerificationToken, ...safeUser } = this.toJSON();
         return safeUser;
     }
 }

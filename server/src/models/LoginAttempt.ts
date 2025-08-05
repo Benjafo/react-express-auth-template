@@ -43,12 +43,7 @@ export class LoginAttempt extends Model {
     /**
      * Create a login attempt record
      */
-    static async recordAttempt(
-        email: string,
-        ipAddress?: string,
-        userAgent?: string,
-        success: boolean = false
-    ): Promise<LoginAttempt> {
+    static async recordAttempt(email: string, ipAddress?: string, userAgent?: string, success: boolean = false): Promise<LoginAttempt> {
         return this.create({
             email,
             ipAddress,
