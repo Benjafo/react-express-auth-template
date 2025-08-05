@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 /**
  * Create a standardized rate limit exceeded response
  */
-const rateLimitResponse = (req: Request, res: Response) => {
+const rateLimitResponse = (_req: Request, res: Response) => {
     res.status(429).json({
         success: false,
         error: {
