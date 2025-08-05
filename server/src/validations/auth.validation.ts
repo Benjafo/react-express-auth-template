@@ -35,8 +35,18 @@ export const authValidation = {
      * Validation for user login
      */
     login: [
-        body('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
-        body('password').notEmpty().withMessage('Password is required'),
+        body('email')
+            .trim()
+            .isEmail()
+            .withMessage('Invalid email address')
+            .normalizeEmail()
+            .isLength({ max: 255 })
+            .withMessage('Email must be less than 255 characters'),
+        body('password')
+            .notEmpty()
+            .withMessage('Password is required')
+            .isLength({ max: 128 })
+            .withMessage('Password must be less than 128 characters'),
     ] as ValidationChain[],
 
     /**
