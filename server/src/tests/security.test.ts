@@ -13,13 +13,11 @@ describe('Security Features', () => {
 
     describe('Input Validation', () => {
         it('should reject invalid email format on registration', async () => {
-            const response = await request(app)
-                .post('/api/auth/register')
-                .send({
-                    email: 'invalid-email',
-                    password: 'ValidPass123!',
-                    confirmPassword: 'ValidPass123!',
-                });
+            const response = await request(app).post('/api/auth/register').send({
+                email: 'invalid-email',
+                password: 'ValidPass123!',
+                confirmPassword: 'ValidPass123!',
+            });
 
             expect(response.status).toBe(400);
             expect(response.body.error.code).toBe('VAL001');
@@ -27,27 +25,25 @@ describe('Security Features', () => {
         });
 
         it('should reject weak passwords', async () => {
-            const response = await request(app)
-                .post('/api/auth/register')
-                .send({
-                    email: 'test@example.com',
-                    password: 'weak',
-                    confirmPassword: 'weak',
-                });
+            const response = await request(app).post('/api/auth/register').send({
+                email: 'test@example.com',
+                password: 'weak',
+                confirmPassword: 'weak',
+            });
 
             expect(response.status).toBe(400);
             expect(response.body.error.code).toBe('VAL001');
         });
 
         it('should sanitize input data', async () => {
-            const response = await request(app)
-                .post('/api/auth/register')
-                .send({
-                    email: '  TEST@EXAMPLE.COM  ',
-                    password: 'ValidPass123!',
-                    confirmPassword: 'ValidPass123!',
-                    extraField: 'should be removed',
-                });
+            const response = await request(app).post('/api/auth/register').send({
+                email: '  TEST@EXAMPLE.COM  ',
+                password: 'ValidPass123!',
+                confirmPassword: 'ValidPass123!',
+                extraField: 'should be removed',
+            });
+
+            expect(response.status).toBe(200);
 
             // The email should be normalized and extra fields removed
             // This would be verified in the actual handler
@@ -57,13 +53,11 @@ describe('Security Features', () => {
     describe('CSRF Protection', () => {
         it('should set CSRF token cookie', async () => {
             const response = await request(app).get('/health');
-            
+
             const cookies = response.headers['set-cookie'];
             expect(cookies).toBeDefined();
-            
-            const csrfCookie = cookies?.find((cookie: string) => 
-                cookie.startsWith('XSRF-TOKEN=')
-            );
+
+            const csrfCookie = cookies?.find((cookie: string) => cookie.startsWith('XSRF-TOKEN='));
             expect(csrfCookie).toBeDefined();
         });
 
@@ -83,7 +77,7 @@ describe('Security Features', () => {
             expect(response.headers['x-xss-protection']).toBe('1; mode=block');
             expect(response.headers['referrer-policy']).toBe('strict-origin-when-cross-origin');
             expect(response.headers['permissions-policy']).toBeDefined();
-            
+
             // Check cache control headers
             expect(response.headers['cache-control']).toContain('no-store');
             expect(response.headers['pragma']).toBe('no-cache');
@@ -91,7 +85,7 @@ describe('Security Features', () => {
 
         it('should have Content Security Policy', async () => {
             const response = await request(app).get('/health');
-            
+
             expect(response.headers['content-security-policy']).toBeDefined();
             expect(response.headers['content-security-policy']).toContain("default-src 'self'");
         });
@@ -100,14 +94,12 @@ describe('Security Features', () => {
     describe('Request Size Limits', () => {
         it('should reject requests with body larger than 10kb', async () => {
             const largeData = 'x'.repeat(11 * 1024); // 11kb of data
-            
-            const response = await request(app)
-                .post('/api/auth/register')
-                .send({
-                    email: 'test@example.com',
-                    password: largeData,
-                    confirmPassword: largeData,
-                });
+
+            const response = await request(app).post('/api/auth/register').send({
+                email: 'test@example.com',
+                password: largeData,
+                confirmPassword: largeData,
+            });
 
             expect(response.status).toBe(413); // Payload Too Large
         });
@@ -117,7 +109,7 @@ describe('Security Features', () => {
 /**
  * Note: These are example tests to demonstrate the security features.
  * In a production environment, you would need:
- * 
+ *
  * 1. Proper test database setup
  * 2. More comprehensive rate limiting tests
  * 3. CSRF token verification tests
