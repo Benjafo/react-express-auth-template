@@ -35,6 +35,9 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 // Apply rate limiting to all API routes
 app.use('/api/', apiLimiter);
 
+// CSRF protection - generate token for all requests
+app.use(csrf.generate);
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
     res.json({
@@ -45,6 +48,9 @@ app.get('/health', (_req, res) => {
         },
     });
 });
+
+// Apply CSRF verification to API routes (excluding auth endpoints that don't need it)
+app.use('/api/', csrf.exclude(['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password']));
 
 // API routes
 app.use('/api/auth', authRoutes);
