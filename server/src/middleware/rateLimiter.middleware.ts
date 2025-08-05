@@ -66,11 +66,7 @@ export const registrationLimiter: RateLimitRequestHandler = rateLimit({
 /**
  * Create custom rate limiter
  */
-export const createRateLimiter = (
-    windowMinutes: number,
-    maxRequests: number,
-    skipSuccessful: boolean = false
-): RateLimitRequestHandler => {
+export const createRateLimiter = (windowMinutes: number, maxRequests: number, skipSuccessful: boolean = false): RateLimitRequestHandler => {
     return rateLimit({
         windowMs: windowMinutes * 60 * 1000,
         max: maxRequests,

@@ -101,20 +101,11 @@ export const sanitizeParams = {
  * Sanitize query parameters
  */
 export const sanitizeQuery = {
-    pagination: () => [
-        query('page').optional().isInt({ min: 1 }).toInt(),
-        query('limit').optional().isInt({ min: 1, max: 100 }).toInt(),
-    ],
+    pagination: () => [query('page').optional().isInt({ min: 1 }).toInt(), query('limit').optional().isInt({ min: 1, max: 100 }).toInt()],
 
     search: () => query('search').optional().trim().escape(),
 
-    sort: () => [
-        query('sortBy').optional().isIn(['createdAt', 'updatedAt', 'name', 'email']),
-        query('sortOrder').optional().isIn(['asc', 'desc']),
-    ],
+    sort: () => [query('sortBy').optional().isIn(['createdAt', 'updatedAt', 'name', 'email']), query('sortOrder').optional().isIn(['asc', 'desc'])],
 
-    dateRange: () => [
-        query('startDate').optional().isISO8601().toDate(),
-        query('endDate').optional().isISO8601().toDate(),
-    ],
+    dateRange: () => [query('startDate').optional().isISO8601().toDate(), query('endDate').optional().isISO8601().toDate()],
 };

@@ -53,10 +53,7 @@ app.get('/health', (_req, res) => {
 app.post('/api/csp-report', express.json({ type: 'application/csp-report' }), cspReportHandler());
 
 // Apply CSRF verification to API routes (excluding auth endpoints that don't need it)
-app.use(
-    '/api/',
-    csrf.exclude(['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password'])
-);
+app.use('/api/', csrf.exclude(['/api/auth/login', '/api/auth/register', '/api/auth/refresh', '/api/auth/forgot-password']));
 
 // API routes
 app.use('/api/auth', authRoutes);

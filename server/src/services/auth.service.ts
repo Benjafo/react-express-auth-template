@@ -41,11 +41,7 @@ export class AuthService {
     /**
      * Login user
      */
-    static async login(
-        credentials: LoginCredentials,
-        ipAddress?: string,
-        userAgent?: string
-    ): Promise<{ user: User; tokens: AuthTokens }> {
+    static async login(credentials: LoginCredentials, ipAddress?: string, userAgent?: string): Promise<{ user: User; tokens: AuthTokens }> {
         const { email, password } = credentials;
 
         // Find user

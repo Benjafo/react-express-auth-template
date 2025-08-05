@@ -74,10 +74,7 @@ export function configureSecurityHeaders(app: Application): void {
     // Additional custom security headers
     app.use((_req, res, next) => {
         // Permissions Policy (formerly Feature Policy)
-        res.setHeader(
-            'Permissions-Policy',
-            'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()'
-        );
+        res.setHeader('Permissions-Policy', 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()');
 
         // Cache Control for sensitive data
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
