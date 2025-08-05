@@ -31,7 +31,7 @@ export class CSRFProtection {
 
             // Generate new token if not exists
             if (!token) {
-                token = this.generateToken();
+                token = this.generateNewToken();
                 res.cookie(this.CSRF_COOKIE_NAME, token, {
                     httpOnly: false, // Must be accessible by JavaScript
                     secure: process.env.NODE_ENV === 'production', // HTTPS only in production
