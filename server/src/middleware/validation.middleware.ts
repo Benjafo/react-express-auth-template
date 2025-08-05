@@ -29,7 +29,7 @@ export function validate(validations: ValidationChain[]) {
 
         // Extract only validated data
         const validatedData = matchedData(req, { includeOptionals: true });
-        
+
         // Replace request body with validated and sanitized data
         if (req.method !== 'GET' && Object.keys(validatedData).length > 0) {
             req.body = validatedData;

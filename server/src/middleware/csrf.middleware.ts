@@ -28,7 +28,7 @@ export class CSRFProtection {
         return (req: CSRFRequest, res: Response, next: NextFunction): void => {
             // Check if token already exists
             let token = req.cookies?.[this.CSRF_COOKIE_NAME];
-            
+
             // Generate new token if not exists
             if (!token) {
                 token = this.generateToken();
@@ -42,7 +42,7 @@ export class CSRFProtection {
 
             // Add helper method to request
             req.csrfToken = () => token;
-            
+
             next();
         };
     }
@@ -60,11 +60,9 @@ export class CSRFProtection {
 
             // Get token from cookie
             const cookieToken = req.cookies?.[this.CSRF_COOKIE_NAME];
-            
+
             // Get token from header or body
-            const submittedToken = req.headers[this.CSRF_HEADER_NAME] || 
-                                 req.body?._csrf || 
-                                 req.query?._csrf;
+            const submittedToken = req.headers[this.CSRF_HEADER_NAME] || req.body?._csrf || req.query?._csrf;
 
             // Validate tokens
             if (!cookieToken || !submittedToken) {
@@ -104,7 +102,7 @@ export class CSRFProtection {
 
         const bufferA = Buffer.from(a);
         const bufferB = Buffer.from(b);
-        
+
         return crypto.timingSafeEqual(bufferA, bufferB);
     }
 
@@ -114,10 +112,10 @@ export class CSRFProtection {
     static exclude(paths: string[]) {
         return (req: Request, res: Response, next: NextFunction): void => {
             // Skip CSRF verification for excluded paths
-            if (paths.some(path => req.path.startsWith(path))) {
+            if (paths.some((path) => req.path.startsWith(path))) {
                 return next();
             }
-            
+
             // Apply CSRF verification
             this.verifyToken()(req, res, next);
         };
