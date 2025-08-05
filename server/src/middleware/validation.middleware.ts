@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult, ValidationChain, matchedData } from 'express-validator';
 
 /**
- * Middleware to handle validation errors
+ * Middleware to handle validation errors and sanitize input
  */
 export function validate(validations: ValidationChain[]) {
     return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -25,6 +25,14 @@ export function validate(validations: ValidationChain[]) {
                 },
             });
             return;
+        }
+
+        // Extract only validated data
+        const validatedData = matchedData(req, { includeOptionals: true });
+        
+        // Replace request body with validated and sanitized data
+        if (req.method !== 'GET' && Object.keys(validatedData).length > 0) {
+            req.body = validatedData;
         }
 
         next();
